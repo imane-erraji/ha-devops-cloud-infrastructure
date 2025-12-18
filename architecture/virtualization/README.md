@@ -66,3 +66,60 @@ The use of Proxmox VE enables the implementation of a robust, scalable, and
 highly available virtualization layer while remaining aligned with current
 market trends and enterprise requirements.
 
+
+---
+
+## High Availability (HA) Cluster Design
+
+### Cluster Topology
+The Proxmox cluster is designed with a minimum of three nodes to ensure quorum
+and prevent split-brain scenarios.
+
+Each node participates in cluster communication using Corosync.
+
+---
+
+### Quorum and Cluster Communication
+- Corosync handles cluster membership and messaging
+- Quorum is required for HA operations
+- If quorum is lost, HA services are automatically paused to protect data integrity
+
+---
+
+### Network Design for HA
+To ensure stability and performance, network traffic is logically separated:
+
+- Management network: Proxmox administration
+- Cluster network: Corosync communication
+- Storage network: Ceph replication traffic
+- Production network: Virtual machine traffic
+
+This separation reduces latency and avoids single points of failure.
+
+---
+
+### Shared Storage Strategy
+High Availability requires shared storage to allow virtual machines to restart on
+another node in case of failure.
+
+In this project, shared storage is provided using Ceph, fully integrated with
+Proxmox VE.
+
+---
+
+### Failure Scenarios
+The cluster is designed to handle the following scenarios:
+- Node failure with automatic VM failover
+- Live migration during maintenance
+- Controlled shutdown and restart
+- Recovery after unexpected outages
+
+---
+
+### High Availability Benefits
+- Service continuity
+- Reduced downtime
+- Improved resilience
+- Enterprise-grade reliability
+
+
